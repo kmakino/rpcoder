@@ -1,5 +1,3 @@
 .rvmrc
-as3test/bin/
-as3test/src/com/oneup/rpcoder/generated/
-as3test/report/
 pkg/
+.DS_Store
