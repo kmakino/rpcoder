@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Text;
 using Aiming.IteratorTasks;
 
-namespace <%= @namespace %>
+namespace <%= get_namespace %>
 {
-	public class <%= @contract_name %> : <%= @contract_name %>Interface
+	public class <%= contract_name %> : <%= contract_name %>Interface
 	{
 		public const string RESTART		= "RESTART";
 		public const string RETENTION	= "RETENTION";
 		public const string TRANSITION	= "TRANSITION";
 		public const string RELOAD		= "RELOAD";
 
-        <%- @constants.each do |constant| -%>
+        <%- constants.each do |constant| -%>
         public const int <%= constant.name %> = <%= constant.value %>;
         <%- end -%>
 
@@ -69,7 +69,7 @@ namespace <%= @namespace %>
 		public string DefaultErrorMessage { get; set; }
 		public RpcErrorHandler ErrorHandler { get; set; }
 		
-		public <%= @contract_name %>(string baseUrl)
+		public <%= contract_name %>(string baseUrl)
 		{
 			BaseUrl = baseUrl;
 			DefaultErrorMessage = "";
@@ -91,7 +91,7 @@ namespace <%= @namespace %>
 			return source;
 		}
 
-		<%- @functions.each do |func| -%>
+		<%- rpcs.each do |func| -%>
 		<%-
 			response = func.name.camelize + "Response"
 			successHandler = "Action<" + response + ">"
@@ -99,7 +99,7 @@ namespace <%= @namespace %>
 			params = params_excluded_error_handler + ['RpcErrorHandler error']
 		-%>
 		/// <summary>
-		/// <%= func.description %>
+		/// <%= func.get_description %>
 		/// </summary>
 		<%- func.params.each do |param| -%>
 		/// <param name="<%= param.name.to_s.camelize(false) %>"><%= param.options[:description] %></param>
@@ -110,7 +110,7 @@ namespace <%= @namespace %>
 		}
 
 		/// <summary>
-		/// <%= func.description %>
+		/// <%= func.get_description %>
 		/// </summary>
 		<%- func.params.each do |param| -%>
 		/// <param name="<%= param.name.to_s.camelize(false) %>"><%= param.options[:description] %></param>
@@ -171,8 +171,8 @@ namespace <%= @namespace %>
 			{
 				<%-
 					args = []
-					if func.has_response_params?
-						args = func.response_params.map {|param|
+					if func.has_responses?
+						args = func.responses.map {|param|
 							if param.array?
 								if param.original_type?
 									param.name.to_s.camelize + " = jsonData.ContainsKey(\"#{param.name}\") ? JsonMapper.ToObject<#{param.array_or_type}>(jsonData[\"#{param.name}\"].ToJson()) : null"
@@ -224,9 +224,9 @@ namespace <%= @namespace %>
 			{
 				var text = Validate(jsonText);
 				JsonData jsonData = JsonMapper.ToObject(text);
-				<%= @contract_name %>.HandleDebugMessage(jsonData, Log);
+				<%= contract_name %>.HandleDebugMessage(jsonData, Log);
 
-				var hasError = <%= @contract_name %>.HandleError(jsonData, error);
+				var hasError = <%= contract_name %>.HandleError(jsonData, error);
 
 				if (!hasError)
 				{

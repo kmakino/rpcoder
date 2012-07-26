@@ -3,7 +3,7 @@
 require './lib/exporter/exporter'
 
 module RubyExporter
-  include Exporter
+  extend Exporter
 
   def export_ruby(dir)
   end

@@ -3,11 +3,10 @@ require 'erb'
 require './lib/exporter/camelizer'
 
 module Exporter
-  @@languages_dir = ["unity_cs", "ruby"]
+  @@language_dir = ["unity_cs", "ruby"]
 
-  def initialize
-    @template_dir = ""
-    @output_dir = ""
+  def template_dir(dir)
+    @@template_dir = dir
   end
 
   def render_erb(output_path, template_path, binding)
@@ -26,7 +25,7 @@ module Exporter
   end
 
   def make_template_path(language, template_name)
-    File.join(@template_dir, @@languages_dir.find {|l| l == language }, template_name) + '.erb'
+    File.join(@@template_dir, @@language_dir.find {|l| l == language }, template_name) + '.erb'
   end
 end
 

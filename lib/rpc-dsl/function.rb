@@ -7,22 +7,43 @@ module RpcDsl
 
     def initialize(name, &block)
       @name = name
-      @path = ""
-      @method = :GET
-      @description = ""
       @params = []
-      @response_params = []
+      @responses = []
       self.instance_eval(&block)
     end
 
-    attr_reader :name, :description, :params, :response_params
+    attr_reader :name, :params, :responses
 
-    def add_param(name, type, options = {})
+    def method(str)
+      @method = str
+    end
+
+    def get_method
+      @method
+    end
+
+    def path(str)
+      @path = str
+    end
+
+    def get_path
+      @path
+    end
+
+    def description(str)
+      @description = str
+    end
+
+    def get_description
+      @description
+    end
+
+    def param(name, type, options = {})
       @params << Property.new(name, type, options)
     end
 
-    def add_response_param(name, type, options = {})
-      @response_params << Property.new(name, type, options)
+    def response(name, type, options = {})
+      @responses << Property.new(name, type, options)
     end
 
     def path_parts
@@ -51,8 +72,8 @@ module RpcDsl
         true if @method == :GET
     end
 
-    def has_response_params?
-      !@response_params.empty?
+    def has_responses?
+      !@responses.empty?
     end
   end
 end

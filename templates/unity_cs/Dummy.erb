@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Aiming.IteratorTasks;
 
-namespace <%= @namespace %>
+namespace <%= get_namespace %>
 {
-	public class <%= @contract_name %>Dummy : <%= @contract_name %>Interface
+	public class <%= contract_name %>Dummy : <%= contract_name %>Interface
 	{
 		public RpcErrorHandler ErrorHandler { get; set; }
 		public string BaseUrl { get; set; }
@@ -40,7 +40,7 @@ namespace <%= @namespace %>
 
 		private bool IsError { get { return this.error != null; } }
 
-		<%- @functions.each do |func| -%>
+		<%- rpcs.each do |func| -%>
 		<%-
 			response = func.name.camelize + "Response"
 			successHandler = "Action<" + response + ">"
@@ -56,13 +56,13 @@ namespace <%= @namespace %>
 		{
 			if( !HandleError(error) )
 			{
-				<%- if func.has_response_params? -%>
+				<%- if func.has_responses? -%>
 				ArrayList arguments = GetDummySuccess("<%= func.name.camelize %>");
 				<%- end-%>
 				<%-
 					index = -1
 				-%>
-				success(new <%= response %>(){<%= func.response_params.map{|i| i.name.to_s.camelize + " = (#{i.array_or_type})arguments[#{index+=1}]" }.join(",\n\t\t\t\t\t") %>});
+				success(new <%= response %>(){<%= func.responses.map{|i| i.name.to_s.camelize + " = (#{i.array_or_type})arguments[#{index+=1}]" }.join(",\n\t\t\t\t\t") %>});
 			}
 			yield return null;
 		}
