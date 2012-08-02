@@ -1,6 +1,6 @@
 
 require 'erb'
-require './lib/exporter/camelizer'
+require File.dirname(__FILE__) + "/camelizer"
 
 module Exporter
   @@language_dir = ["unity_cs", "padrino"]

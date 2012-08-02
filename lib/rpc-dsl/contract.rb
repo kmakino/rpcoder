@@ -1,8 +1,9 @@
 
 require 'fileutils'
-require './lib/rpc-dsl/constant'
-require './lib/rpc-dsl/type'
-require './lib/rpc-dsl/function'
+current_dir = File.dirname(__FILE__)
+require current_dir + "/constant"
+require current_dir + "/type"
+require current_dir + "/function"
 
 module RpcDsl
   module Contract

@@ -1,5 +1,5 @@
 
-require './lib/rpc-dsl/property'
+require File.dirname(__FILE__) + "/property"
 
 module RpcDsl
   class Type

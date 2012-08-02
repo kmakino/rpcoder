@@ -1,6 +1,6 @@
 
 require 'fileutils'
-require './lib/exporter/exporter'
+require File.dirname(__FILE__) + "/exporter"
 
 module Exporter4UnityCS
   include Exporter

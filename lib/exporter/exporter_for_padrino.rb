@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'fileutils'
-require './lib/exporter/exporter'
+require File.dirname(__FILE__) + "/exporter"
 
 module Exporter4Padrino
   extend Exporter

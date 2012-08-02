@@ -2,8 +2,9 @@
 # encoding: utf-8
 
 require 'fileutils'
-require './lib/rpc-dsl/contract'
-require './lib/exporter/unity_cs_exporter'
+current_dir = File.dirname(__FILE__)
+require current_dir + "/rpc-dsl/contract"
+require current_dir + "/exporter/unity_cs_exporter"
 
 
 include RpcDsl
@@ -11,7 +12,7 @@ include RpcDsl
 
 Contract.name 'Hoge'
 Contract.namespace 'foo.bar'
-Contract.version 0, 1
+Contract.version 1
 
 
 Contract.constant :MAX_ACCOUNT_NAME_LENGTH, 12
