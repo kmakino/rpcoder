@@ -4,7 +4,7 @@
 require 'fileutils'
 current_dir = File.dirname(__FILE__)
 require current_dir + "/rpc-dsl/contract"
-require current_dir + "/exporter/unity_cs_exporter"
+require current_dir + "/exporter/exporter_for_unity_cs"
 
 
 include RpcDsl
