@@ -8,23 +8,23 @@ namespace <%= get_namespace %>
 	{
         <%- rpcs.each do |func| -%>
         <%-
-			response = func.name.camelize + "Response"
+			response = func.name.to_camelcase + "Response"
 			successHandler = "Action<" + response + ">"
-			params = func.params.map{|i| [i.array_or_type, i.name.to_s.camelize(false)].join(' ') }
+			params = func.params.map{|i| [i.array_or_type, i.name.to_s.to_camelcase(false)].join(' ') }
 		-%>
-        public static Task<<%= response %>> <%= func.name.camelize %>Aysnc(this <%= contract_name %>Interface api, <%= params.join(', ') %>)
+        public static Task<<%= response %>> <%= func.name.to_camelcase %>Aysnc(this <%= contract_name %>Interface api, <%= params.join(', ') %>)
         {
-            return <%= func.name.camelize %>Aysnc(api, <%= (func.params.map{|i| i.name.to_s.camelize(false)}).join(', ') %>, null);
+            return <%= func.name.to_camelcase %>Aysnc(api, <%= (func.params.map{|i| i.name.to_s.to_camelcase(false)}).join(', ') %>, null);
         }
                 
-        public static Task<<%= response %>><%= func.name.camelize %>Aysnc(this <%= contract_name %>Interface api, <%= params.join(', ') %>, IProgress<float> progress)
+        public static Task<<%= response %>><%= func.name.to_camelcase %>Aysnc(this <%= contract_name %>Interface api, <%= params.join(', ') %>, IProgress<float> progress)
         {
         	var cts = new CancellationTokenSource();
             System.Action throwIfCancellationRequested = () => cts.Token.ThrowIfCancellationRequested();
             System.Action<float> report = null;
             if (progress != null)
                 report = progress.Report;
-            return new Task<<%= response %>>(success => api.<%= func.name.camelize %>(<%= (func.params.map{|i| i.name.to_s.camelize(false)}).join(', ') %>, success, ThrowOnError, throwIfCancellationRequested, report)) { Cancellation = cts };
+            return new Task<<%= response %>>(success => api.<%= func.name.to_camelcase %>(<%= (func.params.map{|i| i.name.to_s.to_camelcase(false)}).join(', ') %>, success, ThrowOnError, throwIfCancellationRequested, report)) { Cancellation = cts };
         }
         <%- end -%>
 

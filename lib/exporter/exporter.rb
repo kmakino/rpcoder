@@ -3,7 +3,7 @@ require 'erb'
 require './lib/exporter/camelizer'
 
 module Exporter
-  @@language_dir = ["unity_cs", "ruby"]
+  @@language_dir = ["unity_cs", "padrino"]
 
   def template_dir(dir)
     @@template_dir = dir

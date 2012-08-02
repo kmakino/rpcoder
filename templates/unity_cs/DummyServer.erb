@@ -63,35 +63,35 @@ namespace <%= get_namespace %>
 
 		<%- rpcs.each do |func| -%>
 		<%-
-			response = func.name.camelize + "Response"
+			response = func.name.to_camelcase + "Response"
 			successHandler = "Action<" + response + ">"
-			request_query = func.params.map{|i| [i.array_or_type, i.name.to_s.camelize(false)].join(' ') }
+			request_query = func.params.map{|i| [i.array_or_type, i.name.to_s.to_camelcase(false)].join(' ') }
 			params_excluded_error_handler = request_query + [successHandler + ' success']
 			params = params_excluded_error_handler + ['RpcErrorHandler error']
 		-%>
-		public class <%= func.name.camelize %>Request
+		public class <%= func.name.to_camelcase %>Request
 		{
 			<%- func.params.each do |i| -%>
-			public <%= i.array_or_type %> <%= i.name.to_s.camelize %>;
+			public <%= i.array_or_type %> <%= i.name.to_s.to_camelcase %>;
 			<%- end -%>
 			public <%= successHandler %> Success;
 			public RpcErrorHandler Error;
 		}
 
-		public Func<<%= func.name.camelize %>Request, IEnumerator> <%= func.name.camelize %>Logic { get; set; }
+		public Func<<%= func.name.to_camelcase %>Request, IEnumerator> <%= func.name.to_camelcase %>Logic { get; set; }
 
-		public IEnumerator <%= func.name.camelize %>(<%= params_excluded_error_handler.join(', ') %>)
+		public IEnumerator <%= func.name.to_camelcase %>(<%= params_excluded_error_handler.join(', ') %>)
 		{
-			return this.<%= func.name.camelize %>(<%= (func.params.map{|i| i.name.to_s.camelize(false) } + ['success']).join(', ') %>, null, null, null);
+			return this.<%= func.name.to_camelcase %>(<%= (func.params.map{|i| i.name.to_s.to_camelcase(false) } + ['success']).join(', ') %>, null, null, null);
 		}
 
-		public IEnumerator <%= func.name.camelize %>(<%= params.join(', ') %>, Action throwIfCancelRequested, Action<float> reportProgress)
+		public IEnumerator <%= func.name.to_camelcase %>(<%= params.join(', ') %>, Action throwIfCancelRequested, Action<float> reportProgress)
 		{
-			if(<%= func.name.camelize %>Logic != null)
+			if(<%= func.name.to_camelcase %>Logic != null)
 			{
-				return <%= func.name.camelize %>Logic(new <%= func.name.camelize %>Request(){
+				return <%= func.name.to_camelcase %>Logic(new <%= func.name.to_camelcase %>Request(){
 				<%- func.params.each do |i| -%>
-					<%= i.name.to_s.camelize %> = <%= i.name.to_s.camelize(false) %>,
+					<%= i.name.to_s.to_camelcase %> = <%= i.name.to_s.to_camelcase(false) %>,
 				<%- end -%>
 					Success = success,
 					Error = (error != null) ? error : ErrorHandler
@@ -99,9 +99,9 @@ namespace <%= get_namespace %>
 			}
 			else
 			{
-				return _api.<%= func.name.camelize %>(
+				return _api.<%= func.name.to_camelcase %>(
 				<%- func.params.each do |i| -%>
-					<%= i.name.to_s.camelize(false) %>,
+					<%= i.name.to_s.to_camelcase(false) %>,
 				<%- end -%>
 					success,
 					(error != null) ? error : ErrorHandler,

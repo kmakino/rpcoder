@@ -6,15 +6,15 @@ namespace <%= get_namespace %>
 	public partial class <%= type.name %>
 	{
 		<%- type.fields.each do |field| -%>
-		public <%= field.array_or_type %> <%= field.name.to_s.camelize %> { get; set; }
+		public <%= field.array_or_type %> <%= field.name.to_s.to_camelcase %> { get; set; }
 		<%- end -%>
 
 		public <%= type.name %>() {}
 
-		public <%= type.name %>(<%= type.fields.map {|i| "#{i.array_or_type} #{i.name.to_s.camelize(false)}" }.join(', ') %>)
+		public <%= type.name %>(<%= type.fields.map {|i| "#{i.array_or_type} #{i.name.to_s.to_camelcase(false)}" }.join(', ') %>)
 		{
 			<%- type.fields.each do |field| -%>
-			this.<%= field.name.to_s.camelize %> = <%= field.name.to_s.camelize(false) %>;
+			this.<%= field.name.to_s.to_camelcase %> = <%= field.name.to_s.to_camelcase(false) %>;
 			<%- end -%>
 		}
 	}

@@ -2,13 +2,13 @@
 require 'fileutils'
 require './lib/exporter/exporter'
 
-module UnityCSExporter
+module Exporter4UnityCS
   include Exporter
 
-    @@unity_cs_api_templates = [ "API", "Interface", "Dummy", "DummyServer", "APIExtensions" ]
+  @@unity_cs_api_templates = [ "API", "Interface", "Dummy", "DummyServer", "APIExtensions" ]
   @@unity_cs_type_templates = { :basic => "Type", :JSON => "TypeJSON" }
 
-  def unity_cs_export output_dir
+  def generate_cs_code(output_dir)
     FileUtils.mkdir_p(output_dir)
 
     language = 'unity_cs'

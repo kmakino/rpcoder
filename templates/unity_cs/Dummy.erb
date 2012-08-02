@@ -42,27 +42,27 @@ namespace <%= get_namespace %>
 
 		<%- rpcs.each do |func| -%>
 		<%-
-			response = func.name.camelize + "Response"
+			response = func.name.to_camelcase + "Response"
 			successHandler = "Action<" + response + ">"
-			params_excluded_error_handler = func.params.map{|i| [i.array_or_type, i.name.to_s.camelize(false)].join(' ') } + [successHandler + ' success']
+			params_excluded_error_handler = func.params.map{|i| [i.array_or_type, i.name.to_s.to_camelcase(false)].join(' ') } + [successHandler + ' success']
 			params = params_excluded_error_handler + ['RpcErrorHandler error']
 		-%>
-		public IEnumerator <%= func.name.camelize %>(<%= params_excluded_error_handler.join(', ') %>)
+		public IEnumerator <%= func.name.to_camelcase %>(<%= params_excluded_error_handler.join(', ') %>)
 		{
-			return this.<%= func.name.camelize %>(<%= (func.params.map{|i| i.name.to_s.camelize(false) } + ['success']).join(', ') %>, null, null, null);
+			return this.<%= func.name.to_camelcase %>(<%= (func.params.map{|i| i.name.to_s.to_camelcase(false) } + ['success']).join(', ') %>, null, null, null);
 		}
 
-		public IEnumerator <%= func.name.camelize %>(<%= params.join(', ') %>, Action throwIfCancelRequested, Action<float> reportProgress)
+		public IEnumerator <%= func.name.to_camelcase %>(<%= params.join(', ') %>, Action throwIfCancelRequested, Action<float> reportProgress)
 		{
 			if( !HandleError(error) )
 			{
 				<%- if func.has_responses? -%>
-				ArrayList arguments = GetDummySuccess("<%= func.name.camelize %>");
+				ArrayList arguments = GetDummySuccess("<%= func.name.to_camelcase %>");
 				<%- end-%>
 				<%-
 					index = -1
 				-%>
-				success(new <%= response %>(){<%= func.responses.map{|i| i.name.to_s.camelize + " = (#{i.array_or_type})arguments[#{index+=1}]" }.join(",\n\t\t\t\t\t") %>});
+				success(new <%= response %>(){<%= func.responses.map{|i| i.name.to_s.to_camelcase + " = (#{i.array_or_type})arguments[#{index+=1}]" }.join(",\n\t\t\t\t\t") %>});
 			}
 			yield return null;
 		}

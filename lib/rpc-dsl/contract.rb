@@ -42,8 +42,8 @@ module RpcDsl
       @@description
     end
 
-    def self.version(major, minor)
-      @@version = "#{major}_#{minor}"
+    def self.version(v)
+      @@version = v
     end
 
     def self.get_version

@@ -55,6 +55,33 @@ module RpcDsl
       end
     end
 
+    def to_ruby_type
+      case type.to_sym
+        when :int, :Int
+        if self.optional?
+          return :Integer
+        else
+          return :Integer
+        end
+        when :double, :Double
+        if self.optional?
+          return :Float
+        else
+          return :Float
+        end
+        when :string, :String
+        return :String
+        when :bool, :Boolean
+          if self.optional?
+            return :Integer
+          else
+            return :Integer
+          end
+        else
+          return type
+        end
+    end
+
     def to_json_type?
       case type.to_sym
       when :int, :Int

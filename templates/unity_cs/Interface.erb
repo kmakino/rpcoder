@@ -20,34 +20,34 @@ namespace <%= get_namespace %>
 		
 		<%- rpcs.each do |func| -%>
 		<%-
-			successHandler = "Action<" + func.name.camelize + "Response>"
-			params_excluded_error_handler = func.params.map{|i| [i.array_or_type, i.name.to_s.camelize(false)].join(' ') } + [successHandler + ' success']
+			successHandler = "Action<" + func.name.to_camelcase + "Response>"
+			params_excluded_error_handler = func.params.map{|i| [i.array_or_type, i.name.to_s.to_camelcase(false)].join(' ') } + [successHandler + ' success']
 			params = params_excluded_error_handler + ['RpcErrorHandler error']
 		-%>
 		/// <summary>
 		/// <%= func.get_description %>
 		/// </summary>
 		<%- func.params.each do |param| -%>
-		/// <param name="<%= param.name.to_s.camelize(false) %>"><%= param.options[:description] %></param>
+		/// <param name="<%= param.name.to_s.to_camelcase(false) %>"><%= param.options[:description] %></param>
 		<%- end -%>
-		IEnumerator <%= func.name.camelize %>(<%= params_excluded_error_handler.join(', ') %>);
+		IEnumerator <%= func.name.to_camelcase %>(<%= params_excluded_error_handler.join(', ') %>);
 
 		/// <summary>
 		/// <%= func.get_description %>
 		/// </summary>
 		<%- func.params.each do |param| -%>
-		/// <param name="<%= param.name.to_s.camelize(false) %>"><%= param.options[:description] %></param>
+		/// <param name="<%= param.name.to_s.to_camelcase(false) %>"><%= param.options[:description] %></param>
 		<%- end -%>
-		IEnumerator <%= func.name.camelize %>(<%= params.join(', ') %>, Action throwIfCancelRequested, Action<float> reportProgress);
+		IEnumerator <%= func.name.to_camelcase %>(<%= params.join(', ') %>, Action throwIfCancelRequested, Action<float> reportProgress);
 		
 		<%- end -%>
 	}
 
 	<%- rpcs.each do |func| -%>
-	public class <%= func.name.camelize + "Response" %>
+	public class <%= func.name.to_camelcase + "Response" %>
 	{
 		<%- func.responses.each do |i| -%>
-		public <%= i.array_or_type %> <%= i.name.to_s.camelize %>;
+		public <%= i.array_or_type %> <%= i.name.to_s.to_camelcase %>;
 		<%- end -%>
 	}
 
