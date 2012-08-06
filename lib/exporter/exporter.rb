@@ -4,6 +4,7 @@ require File.dirname(__FILE__) + "/camelizer"
 
 module Exporter
   @@language_dir = ["unity_cs", "padrino"]
+  @@template_dir = File.dirname(__FILE__) + '/../../templates'
 
   def template_dir(dir)
     @@template_dir = dir

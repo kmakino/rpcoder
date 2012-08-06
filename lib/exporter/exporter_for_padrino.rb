@@ -9,7 +9,7 @@ module Exporter4Padrino
   @@padrino_routing_templates = [ "routes" ]
   @@padrino_api_templates = [ "request", "response", "validator" ]
   @@padrino_type_templates = [ "type" ]
-  @@padrino_misc_templates = [ "api", "rpc_validation_exception" ]
+  @@padrino_misc_templates = [ "api", "rpc_validation_exception", "rpc_error" ]
 
   def application_name(name)
     @application_name = name

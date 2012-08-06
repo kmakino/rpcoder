@@ -3,8 +3,9 @@
 
 require 'fileutils'
 current_dir = File.dirname(__FILE__)
-require current_dir + "/rpc-dsl/contract"
-require current_dir + "/exporter/exporter_for_unity_cs"
+require current_dir + "/lib/rpc-dsl/contract"
+require current_dir + "/lib/exporter/exporter_for_unity_cs"
+require current_dir + "/lib/exporter/exporter_for_padrino"
 
 
 include RpcDsl
@@ -105,9 +106,11 @@ end
 
 
 
-Contract.extend UnityCSExporter
-Contract.template_dir File.dirname(__FILE__) + '/templates'
-Contract.unity_cs_export Contract.get_namespace_dir "generated"
+Contract.extend Exporter4UnityCS
+Contract.generate_cs_code Contract.get_namespace_dir "generated"
+
+Contract.extend Exporter4Padrino
+Contract.generate_ruby_code "generated"
 
 
 

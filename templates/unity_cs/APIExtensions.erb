@@ -12,12 +12,12 @@ namespace <%= get_namespace %>
 			successHandler = "Action<" + response + ">"
 			params = func.params.map{|i| [i.array_or_type, i.name.to_s.to_camelcase(false)].join(' ') }
 		-%>
-        public static Task<<%= response %>> <%= func.name.to_camelcase %>Aysnc(this <%= contract_name %>Interface api, <%= params.join(', ') %>)
+        public static Task<<%= response %>> <%= func.name.to_camelcase %>Async(this <%= contract_name %>Interface api, <%= params.join(', ') %>)
         {
-            return <%= func.name.to_camelcase %>Aysnc(api, <%= (func.params.map{|i| i.name.to_s.to_camelcase(false)}).join(', ') %>, null);
+            return <%= func.name.to_camelcase %>Async(api, <%= (func.params.map{|i| i.name.to_s.to_camelcase(false)}).join(', ') %>, null);
         }
                 
-        public static Task<<%= response %>><%= func.name.to_camelcase %>Aysnc(this <%= contract_name %>Interface api, <%= params.join(', ') %>, IProgress<float> progress)
+        public static Task<<%= response %>><%= func.name.to_camelcase %>Async(this <%= contract_name %>Interface api, <%= params.join(', ') %>, IProgress<float> progress)
         {
         	var cts = new CancellationTokenSource();
             System.Action throwIfCancellationRequested = () => cts.Token.ThrowIfCancellationRequested();
