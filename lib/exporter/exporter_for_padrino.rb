@@ -4,7 +4,7 @@ require 'fileutils'
 require File.dirname(__FILE__) + "/exporter"
 
 module Exporter4Padrino
-  extend Exporter
+  include Exporter
 
   @@padrino_routing_templates = [ "routes" ]
   @@padrino_api_templates = [ "request", "response", "validator" ]
